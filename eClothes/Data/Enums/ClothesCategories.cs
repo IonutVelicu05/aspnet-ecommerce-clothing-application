@@ -10,6 +10,7 @@
         Sapca,
         Pantaloni,
         BluzeTrening,
-        PantaloniTrening
+        PantaloniTrening,
+        Palton
     }
 }

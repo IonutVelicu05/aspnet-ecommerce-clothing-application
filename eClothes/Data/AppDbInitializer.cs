@@ -10,7 +10,7 @@ namespace eClothes.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 context.Database.EnsureCreated();
-
+                /*
                 //producer
                 if (!context.Producers.Any())
                 {
@@ -48,7 +48,7 @@ namespace eClothes.Data
                         },
                     });
                     context.SaveChanges();
-                }
+                } */
                 //discounts
                 if (!context.Discounts.Any())
                 {
@@ -56,17 +56,17 @@ namespace eClothes.Data
                     {
                         new Discounts()
                         {
-                            Name = "Reducere toamna 10%",
+                            Name = "Reducere toamna",
                             Discount = 10
                         },
                         new Discounts()
                         {
-                            Name = "Reducere iarna 15%",
+                            Name = "Reducere iarna",
                             Discount = 15
                         },
                         new Discounts()
                         {
-                            Name = "Mega reducere 50%",
+                            Name = "Mega reducere",
                             Discount = 50
                         },
                     });
@@ -84,9 +84,10 @@ namespace eClothes.Data
                             Stock = 20,
                             Description = "Un tricou dsquared scump si naspa",
                             Size = "M",
+                            Gender = "M",
                             Price = 50,
                             ClothesCategory = Enums.ClothesCategories.Tricou,
-                            ProducerId = 5,
+                            Producer = "Dsquared",
                         },
                         new Clothes()
                         {
@@ -95,9 +96,10 @@ namespace eClothes.Data
                             Stock = 30,
                             Description = "Un hanorac foarte frumos",
                             Size = "L",
+                            Gender = "M",
                             Price = 100,
                             ClothesCategory = Enums.ClothesCategories.Hanorac,
-                            ProducerId = 2,
+                            Producer = "Pull & bear",
                         },
                         new Clothes()
                         {
@@ -106,10 +108,23 @@ namespace eClothes.Data
                             Stock = 15,
                             Description = "Geaca de piele de la vergace",
                             Size = "S",
+                            Gender = "M",
                             Price = 50,
                             ClothesCategory = Enums.ClothesCategories.Geaca,
-                            ProducerId = 4,
+                            Producer = "Vergace",
                         },
+                        new Clothes()
+                        {
+                            Name = "Palton femeie",
+                            ImageURL = "https://static.bershka.net/4/photos2/2022/I/0/1/p/6968/333/816/796d62f240e390f5a2820143c4f20aaf-6968333816_2_4_0.jpg?",
+                            Stock = 6,
+                            Description = "Palton de femeie frumos",
+                            Size = "L",
+                            Gender = "F",
+                            Price = 80,
+                            ClothesCategory = Enums.ClothesCategories.Palton,
+                            Producer = "Bershka",
+                        }
                     });
                     context.SaveChanges();
                 }

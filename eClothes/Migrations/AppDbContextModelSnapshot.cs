@@ -36,6 +36,10 @@ namespace eClothes.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,8 +51,9 @@ namespace eClothes.Migrations
                     b.Property<int>("Price")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProducerId")
-                        .HasColumnType("int");
+                    b.Property<string>("Producer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Size")
                         .IsRequired()
@@ -58,8 +63,6 @@ namespace eClothes.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProducerId");
 
                     b.ToTable("Clothes");
                 });
@@ -99,42 +102,6 @@ namespace eClothes.Migrations
                     b.ToTable("Discounts");
                 });
 
-            modelBuilder.Entity("eClothes.Models.Producer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfileBio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfilePictureURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Producers");
-                });
-
-            modelBuilder.Entity("eClothes.Models.Clothes", b =>
-                {
-                    b.HasOne("eClothes.Models.Producer", "Producer")
-                        .WithMany("Clothes")
-                        .HasForeignKey("ProducerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Producer");
-                });
-
             modelBuilder.Entity("eClothes.Models.Clothes_Discounts", b =>
                 {
                     b.HasOne("eClothes.Models.Discounts", "Discounts")
@@ -162,11 +129,6 @@ namespace eClothes.Migrations
             modelBuilder.Entity("eClothes.Models.Discounts", b =>
                 {
                     b.Navigation("Clothes_Discounts");
-                });
-
-            modelBuilder.Entity("eClothes.Models.Producer", b =>
-                {
-                    b.Navigation("Clothes");
                 });
 #pragma warning restore 612, 618
         }

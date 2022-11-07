@@ -11,13 +11,10 @@ namespace eClothes.Models
         public string Description { get; set; }
         public int Price { get; set; }
         public int Stock { get; set; }
+        public string Gender { get; set; }
         public string Size { get; set; }
         public ClothesCategories ClothesCategory { get; set;}
-        public List<Clothes_Discounts> Clothes_Discounts { get; set; }
-
-        //producator
-        public int ProducerId { get; set; }
-        [ForeignKey("ProducerId")]
-        public Producer Producer { get; set; }
+        public List<Clothes_Discounts>? Clothes_Discounts { get; set; }
+        public string Producer { get; set; }
     }
 }
