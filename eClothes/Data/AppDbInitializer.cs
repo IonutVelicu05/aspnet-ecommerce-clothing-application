@@ -10,45 +10,6 @@ namespace eClothes.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
                 context.Database.EnsureCreated();
-                /*
-                //producer
-                if (!context.Producers.Any())
-                {
-                    context.Producers.AddRange(new List<Producer>()
-                    {
-                        new Producer()
-                        {
-                            FullName = "Bershka",
-                            ProfilePictureURL = "https://www.nevada.shopping/sites/nevada.shopping/files/field/operador-logo/bershka_-_logo.jpg",
-                            ProfileBio = "This is the description of Bershka"
-                        },
-                        new Producer()
-                        {
-                            FullName = "Pull & bear",
-                            ProfilePictureURL = "https://freepikpsd.com/file/2019/10/pull-and-bear-png-1.png",
-                            ProfileBio = "This is the description of Pull & bear"
-                        },
-                        new Producer()
-                        {
-                            FullName = "Zara",
-                            ProfilePictureURL = "https://mir-s3-cdn-cf.behance.net/project_modules/2800_opt_1/ee966d75834063.5c5854ad70bf0.jpg",
-                            ProfileBio = "This is the description of Zara"
-                        },
-                        new Producer()
-                        {
-                            FullName = "Guess",
-                            ProfilePictureURL = "https://i.pinimg.com/564x/7b/31/77/7b3177cd6d2552caee1f68650d093e11.jpg",
-                            ProfileBio = "This is the description of Guess"
-                        },
-                        new Producer()
-                        {
-                            FullName = "Dsqared",
-                            ProfilePictureURL = "https://i.pinimg.com/564x/2b/90/26/2b9026f389f99255449b5a5b336743d7.jpg",
-                            ProfileBio = "This is the description of the dsquared"
-                        },
-                    });
-                    context.SaveChanges();
-                } */
                 //discounts
                 if (!context.Discounts.Any())
                 {

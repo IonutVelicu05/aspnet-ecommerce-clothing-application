@@ -10,7 +10,7 @@ namespace eClothes.Data.Base
 
         Task AddAsync(T entity);
 
-        Task<T> UpdateAsync(int id, T entity);
+        Task UpdateAsync(int id, T entity);
 
         Task DeleteAsync(int id);
     }

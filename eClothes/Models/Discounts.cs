@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eClothes.Data.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace eClothes.Models
 {
-    public class Discounts
+    public class Discounts : IEntityBase
     {
         public int Id { get; set; }
 

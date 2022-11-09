@@ -1,0 +1,53 @@
+﻿@model Producer
+
+@{
+	ViewData["Title"] = "Edit discount";
+}
+
+
+
+<div class="row text">
+	<div class="col-md-8 offset-2">
+		<p>
+			<h4>Edit data</h4>
+		</p>
+		<div class="row">
+			<div class="col-md-8 offset-2">
+				<form asp-action="Edit">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group text-center">
+						<img id="ImageURLPreview" style="max-width: 250px; max-height:250px;" />
+					</div>
+					<div class="form-group">
+						<label asp-for="ProfilePictureURL" class="control-label"></label>
+						<input id="ImageURL" asp-for="ProfilePictureURL" class="form-control" />
+						<span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="FullName" class="control-label"></label>
+						<input asp-for="FullName" class="form-control" />
+						<span asp-validation-for="FullName" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="ProfileBio" class="control-label"></label>
+						<input asp-for="ProfileBio" class="form-control" />
+						<span asp-validation-for="ProfileBio" class="text-danger"></span>
+					</div>
+					<br />
+					<div class=form-group>
+						<input type="submit" value="Update" class="btn btn-outline-success float-right" />
+						<a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts{
+	<script>
+		$("#ImageURL").on("change", function (){
+			var output = document.getElementById('ImageURLPreview');
+			output.src = $(this).val();
+		})
+	</script>
+}
