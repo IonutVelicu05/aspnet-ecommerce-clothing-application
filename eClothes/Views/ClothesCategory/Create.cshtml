@@ -1,7 +1,7 @@
-﻿@model Discounts
+﻿@model ClothesCategory
 
 @{
-	ViewData["Title"] = "Create new discount";
+	ViewData["Title"] = "Creaza o noua categorie de haine";
 }
 
 
@@ -19,11 +19,6 @@
 					<label asp-for="Name" class="control-label"></label>
 					<input asp-for="Name" class="form-control" />
 					<span asp-validation-for="Name" class="text-danger"></span>
-					</div>
-					<div class="form-group">
-						<label asp-for="Discount" class="control-label"></label>
-						<input asp-for="Discount" class="form-control" />
-						<span asp-validation-for="Discount" class="text-danger"></span>
 					</div>
 					<br />
 					<div class=form-group>

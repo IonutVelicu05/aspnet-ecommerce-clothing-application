@@ -12,6 +12,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 builder.Services.AddScoped<IDiscountsService, DiscountsService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
+builder.Services.AddScoped<IClothesService, ClothesService>();
+builder.Services.AddScoped<IClothesCategoryService, ClothesCategoryService>();
 
 
 

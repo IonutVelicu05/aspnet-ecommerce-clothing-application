@@ -33,62 +33,40 @@ namespace eClothes.Data
                     });
                     context.SaveChanges();
                 }
-                //clothes
-                if (!context.Clothes.Any())
+                //Producers
+                if (!context.Producers.Any())
                 {
-                    context.Clothes.AddRange(new List<Clothes>()
+                    context.Producers.AddRange(new List<Producer>()
                     {
-                        new Clothes()
+                        new Producer()
                         {
-                            Name = "Tricou dsquared",
-                            ImageURL = "https://cdn.aboutstatic.com/file/images/a80d142a56bb55403659c1d5d29df0c2.png?bg=F4F4F5&quality=75&trim=1&height=1067&width=800",
-                            Stock = 20,
-                            Description = "Un tricou dsquared scump si naspa",
-                            Size = "M",
-                            Gender = "M",
-                            Price = 50,
-                            ClothesCategory = Enums.ClothesCategories.Tricou,
-                            Producer = "Dsquared",
+                            FullName = "Dsquared",
+                            ProfileBio = "This is the Bio of the first actor",
+                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-1.jpeg"
+
                         },
-                        new Clothes()
+                        new Producer()
                         {
-                            Name = "Hanorac frumos",
-                            ImageURL = "https://static.pullandbear.net/2/photos//2022/I/0/2/p/8593/902/251/8593902251_2_6_8.jpg?t=1665418708968",
-                            Stock = 30,
-                            Description = "Un hanorac foarte frumos",
-                            Size = "L",
-                            Gender = "M",
-                            Price = 100,
-                            ClothesCategory = Enums.ClothesCategories.Hanorac,
-                            Producer = "Pull & bear",
+                            FullName = "Pull n bear",
+                            ProfileBio = "This is the Bio of the second actor",
+                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-2.jpeg"
                         },
-                        new Clothes()
+                        new Producer()
                         {
-                            Name = "Geaca vergace",
-                            ImageURL = "https://squareshop.ro/images/stories/virtuemart/product/054060002026_photo1.jpg",
-                            Stock = 15,
-                            Description = "Geaca de piele de la vergace",
-                            Size = "S",
-                            Gender = "M",
-                            Price = 50,
-                            ClothesCategory = Enums.ClothesCategories.Geaca,
-                            Producer = "Vergace",
+                            FullName = "Vergace",
+                            ProfileBio = "This is the Bio of the second actor",
+                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-3.jpeg"
                         },
-                        new Clothes()
+                        new Producer()
                         {
-                            Name = "Palton femeie",
-                            ImageURL = "https://static.bershka.net/4/photos2/2022/I/0/1/p/6968/333/816/796d62f240e390f5a2820143c4f20aaf-6968333816_2_4_0.jpg?",
-                            Stock = 6,
-                            Description = "Palton de femeie frumos",
-                            Size = "L",
-                            Gender = "F",
-                            Price = 80,
-                            ClothesCategory = Enums.ClothesCategories.Palton,
-                            Producer = "Bershka",
+                            FullName = "Bershka",
+                            ProfileBio = "This is the Bio of the second actor",
+                            ProfilePictureURL = "http://dotnethow.net/images/producers/producer-4.jpeg"
                         }
                     });
                     context.SaveChanges();
                 }
+                /*
                 // discount & clothes relation
                 if (!context.Clothes_Discounts.Any())
                 {
@@ -111,7 +89,7 @@ namespace eClothes.Data
                         },
                     });
                     context.SaveChanges();
-                }
+                }*/
             }
         }
     }

@@ -31,5 +31,6 @@ namespace eClothes.Data
         public DbSet<Discounts> Discounts { get; set; }
         public DbSet<Clothes_Discounts> Clothes_Discounts { get; set; }
         public DbSet<Producer> Producers { get; set; }
+        public DbSet<ClothesCategory> Clothes_Categories { get; set; }
     }
 }

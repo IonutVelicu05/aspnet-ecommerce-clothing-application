@@ -1,4 +1,5 @@
 ﻿using eClothes.Models;
+using System.Linq.Expressions;
 
 namespace eClothes.Data.Base
 {
@@ -7,6 +8,8 @@ namespace eClothes.Data.Base
         Task<IEnumerable<T>> GetAllAsync();
 
         Task<T> GetByIdAsync(int id);
+
+        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] expressions);
 
         Task AddAsync(T entity);
 

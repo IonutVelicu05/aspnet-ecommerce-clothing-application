@@ -1,0 +1,75 @@
+﻿@model Clothes
+
+@{
+	ViewData["Title"] = "Create new discount";
+}
+
+
+
+<div class="row text">
+	<div class="col-md-8 offset-2">
+		<p>
+			<h4>Add new discount</h4>
+		</p>
+		<div class="row">
+			<div class="col-md-8 offset-2">
+				<form asp-action="Create">
+					<div asp-validation-summary="ModelOnly" class="text-danger">
+					</div>
+					<div class="form-group text-center">
+						<img id="ImageURLPreview" />
+					</div>
+					<div class="form-group">
+						<label asp-for="ImageURL" class="control-label"></label>
+						<input id="ImageURL" asp-for="ImageURL" class="form-control" />
+						<span asp-validation-for="ImageURL" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Name" class="control-label"></label>
+						<input asp-for="Name" class="form-control" />
+						<span asp-validation-for="Name" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Description" class="control-label"></label>
+						<input asp-for="Description" class="form-control" />
+						<span asp-validation-for="Description" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Size" class="control-label"></label>
+						<input asp-for="Size" class="form-control" />
+						<span asp-validation-for="Size" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Price" class="control-label"></label>
+						<input asp-for="Price" class="form-control" />
+						<span asp-validation-for="Price" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Stock" class="control-label"></label>
+						<input asp-for="Stock" class="form-control" />
+						<span asp-validation-for="Stock" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Producer" class="control-label"></label>
+						<input asp-for="Producer" class="form-control" />
+						<span asp-validation-for="Producer" class="text-danger"></span>
+					</div>
+					<br />
+					<div class=form-group>
+						<input type="submit" value="Create" class="btn btn-outline-success float-right" />
+						<a class="btn btn-outline-secondary" asp-action="Index">Show all</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script>
+		$("#ImageURL").on("change", function (){
+			var output = document.getElementById('ImageURLPreview');
+			output.src = $(this).val();
+		})
+	</script>
+}
