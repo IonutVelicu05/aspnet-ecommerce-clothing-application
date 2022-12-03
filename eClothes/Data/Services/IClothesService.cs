@@ -9,6 +9,7 @@ namespace eClothes.Data.Services
 		Task<Clothes> GetClothByIdAsync(int id);
 		Task<NewClothesDropdownsVM> GetNewClothDropdownsValues();
 		Task AddNewClothAsync(NewClothesVM cloth);
+		Task UpdateClothAsync(NewClothesVM cloth);
 		Task<ClothesCategory> GetCategoryByName(string name);
 	}
 }

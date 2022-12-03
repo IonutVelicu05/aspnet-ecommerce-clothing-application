@@ -23,15 +23,28 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        @*User profile section*@
+                        <div class="dropdown d-md-none d-lg-none">
+                            <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-badge">Hello user</i>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="profile-btn">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                                        <i class="bi bi-list">Orders</i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Clothes" asp-action="Index"> <i class="bi bi-handbag"></i> Clothes </a>
                         </li>
-
                         <li class="dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-gear"></i> Management
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                
                                 <a class="dropdown-item" asp-controller="Discounts" asp-action="Index">  Discounts</a>
                                 <a class="dropdown-item" asp-controller="Producer" asp-action="Index">  Producers</a>
                             </div>
@@ -41,6 +54,22 @@
                         <input name="searchString" type="text" class="form-control" placeholder="Search for a cloth..." aria-label="Recipient's username" aria-describedby="button-addon2">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
                     </form>
+                    <ul class="navbar-nav">
+                        @await Component.InvokeAsync("ShoppingCartSummary")
+                    </ul>
+                    @*User profile section*@
+                    <div class="dropdown">
+                        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-badge">Hello user</i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="profile-btn">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                                    <i class="bi bi-list">Orders</i>
+                                    </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

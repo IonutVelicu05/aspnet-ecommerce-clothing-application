@@ -70,5 +70,42 @@ namespace eClothes.Data.Services
 			};
 			return response;
 		}
+
+		public async Task UpdateClothAsync(NewClothesVM cloth)
+		{
+			var dbCloth = await _context.Clothes.FirstOrDefaultAsync(n => n.Id == cloth.Id);
+			if (dbCloth != null)
+			{
+				dbCloth.Name = cloth.Name;
+				dbCloth.Description = cloth.Description;
+				dbCloth.Price = cloth.Price;
+				dbCloth.Gender = cloth.Gender;
+				dbCloth.Size = cloth.Size;
+				dbCloth.Stock = cloth.Stock;
+				dbCloth.ImageURL = cloth.ImageURL;
+				dbCloth.ProducerId = cloth.ProducerId;
+				dbCloth.ClothesCategoryId = cloth.ClothesCategoryId;
+			}
+			await _context.SaveChangesAsync();
+			//remove discounts
+			var existingDiscounts = _context.Clothes_Discounts.Where(n => n.ClothId == cloth.Id).ToList();
+			_context.Clothes_Discounts.RemoveRange(existingDiscounts);
+			await _context.SaveChangesAsync();
+
+            //add new discounts 
+            if (cloth.ClothesDiscountIds.Count > 0)
+            {
+                foreach (var discountId in cloth.ClothesDiscountIds)
+                {
+                    var newDiscount = new Clothes_Discounts()
+                    {
+                        ClothId = cloth.Id,
+                        DiscountId = discountId
+                    };
+                    await _context.Clothes_Discounts.AddAsync(newDiscount);
+                }
+                await _context.SaveChangesAsync();
+            }
+        }
 	}
 }

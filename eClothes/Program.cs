@@ -1,4 +1,5 @@
 using eClothes.Data;
+using eClothes.Data.Cart;
 using eClothes.Data.Services;
 using eClothes.Models;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,13 @@ builder.Services.AddScoped<IDiscountsService, DiscountsService>();
 builder.Services.AddScoped<IProducerService, ProducerService>();
 builder.Services.AddScoped<IClothesService, ClothesService>();
 builder.Services.AddScoped<IClothesCategoryService, ClothesCategoryService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+
+
+builder.Services.AddSession();
 
 
 var app = builder.Build();
@@ -31,6 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
 
 app.UseRouting();
 

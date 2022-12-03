@@ -18,14 +18,16 @@
                                     @item.Name
                                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                     {
-                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
                                     }
+                                    <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
                                 </h5>
                             </p>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <img src="@item.ImageURL" width="100%" style="height: 350px;" alt="@item.Name">
+                        <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@item.ImageURL" width="100%" style="height: 350px;" alt="@item.Name">
+                        </a>
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
@@ -57,9 +59,9 @@
                                 <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <a class="btn btn-success text-white @((item.Stock > 0) ? "disabled" : "")" 
+                                <a class="btn btn-success text-white)" 
                                    asp-controller="Orders" 
-                                   asp-action="AddItemToShoppingCart" 
+                                   asp-action="AddToShoppingCart" 
                                    asp-route-id="@item.Id">
                                 <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
                             </p>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eClothes.Data;
 
@@ -10,9 +11,10 @@ using eClothes.Data;
 namespace eClothes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221202104500_orderTables")]
+    partial class orderTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,31 +200,6 @@ namespace eClothes.Migrations
                     b.ToTable("Producers");
                 });
 
-            modelBuilder.Entity("eClothes.Models.ShoppingCartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClothId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShoppingCartId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClothId");
-
-                    b.ToTable("ShoppingCartItems");
-                });
-
             modelBuilder.Entity("eClothes.Models.Clothes", b =>
                 {
                     b.HasOne("eClothes.Models.ClothesCategory", "ClothesCategory")
@@ -278,17 +255,6 @@ namespace eClothes.Migrations
                     b.Navigation("Cloth");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("eClothes.Models.ShoppingCartItem", b =>
-                {
-                    b.HasOne("eClothes.Models.Clothes", "Cloth")
-                        .WithMany()
-                        .HasForeignKey("ClothId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cloth");
                 });
 
             modelBuilder.Entity("eClothes.Models.Clothes", b =>

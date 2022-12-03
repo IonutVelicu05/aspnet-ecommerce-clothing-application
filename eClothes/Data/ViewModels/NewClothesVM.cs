@@ -8,6 +8,7 @@ namespace eClothes.Models
 {
     public class NewClothesVM
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Cloth image url is required")]
         [Display(Name = "Cloth image url")]
         public string ImageURL { get; set; }
