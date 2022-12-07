@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <h4 class="card-text">@Model.Description</h4>
                         <h3 class="card-text">
-                            Producer: <a asp-controller="Producers" asp-action="Details" asp-route-id="@Model.ProducerId">
+                            Producer: <a asp-controller="Producer" asp-action="Details" asp-route-id="@Model.ProducerId">
                                 @Model.Producer.FullName </a>
                         </h3>
                         <h3 class="card-text mt-4">Category: @Model.ClothesCategory.Name</h3>

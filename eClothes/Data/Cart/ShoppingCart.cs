@@ -62,7 +62,7 @@ namespace eClothes.Data.Cart
             var shoppingCartItem = _context.ShoppingCartItems.FirstOrDefault(n => n.Cloth.Id == cloth.Id && n.ShoppingCartId == ShoppingCartId);
             if (shoppingCartItem != null)
             {
-				if(shoppingCartItem.Amount > 1) { shoppingCartItem.Amount--; }
+				if(shoppingCartItem.Amount > 0) { shoppingCartItem.Amount--; }
             }
             else
             {

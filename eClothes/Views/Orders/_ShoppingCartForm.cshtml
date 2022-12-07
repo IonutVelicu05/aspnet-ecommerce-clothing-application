@@ -1,0 +1,57 @@
+﻿@using eClothes.Data.ViewModels;
+@model ShoppingCartFormVM
+
+<div class="row">
+	<div class="col-md-6 offset-3">
+		<p>
+			<h4>Log into your account</h4>
+		</p>
+		@if (TempData["Error"] != null)
+		{
+			<div class="col-md-12 alert alert-danger">
+				<span><b>Sorry -  @TempData["Error"]</b></span>
+			</div>
+		}
+		<div class="row">
+			<div class="col-md-8 offset-2">
+				<form asp-action="Login">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+					<div class="form-group">
+						<a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Account" asp-action="Register">
+							<i class="bi bi-person-plus">Click here to register an account</i>
+						</a>
+					</div>
+					<div class="form-group">
+						<label asp-for="Address" class="control-label"></label>
+						<input id="address" asp-for=" Address" class="form-control" />
+						<span asp-validation-for="Address" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="City" class="control-label"></label>
+						<input id="city" asp-for=" City" class="form-control" />
+						<span asp-validation-for="City" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="County" class="control-label"></label>
+						<input id="county" asp-for=" County" class="form-control" />
+						<span asp-validation-for="County" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="Zipcode" class="control-label"></label>
+						<input id="zipcode" asp-for=" Zipcode" class="form-control" />
+						<span asp-validation-for="Zipcode" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="PhoneNumber" class="control-label"></label>
+						<input id="phoneNumber" asp-for=" PhoneNumber" class="form-control" />
+						<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<input class="btn btn-outline-success float-right" type="submit" value="Log in" />
+						<a class="btn btn-outline-secondary" asp-controller="Clothes" asp-action="Index">Cancel</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

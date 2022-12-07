@@ -2,6 +2,8 @@ using eClothes.Data;
 using eClothes.Data.Cart;
 using eClothes.Data.Services;
 using eClothes.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,20 @@ builder.Services.AddScoped<IOrdersService, OrdersService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
+//authentication and authorization
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 4;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+}).AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+});
 
 builder.Services.AddSession();
 
@@ -40,6 +56,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 
+//authentication and authorization
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -50,5 +71,6 @@ app.MapControllerRoute(
 
 
 AppDbInitializer.Seed(app);
+AppDbInitializer.SeedUsersAndRolesAsync(app).Wait();
 
 app.Run();

@@ -23,20 +23,23 @@
 			<tbody>
 				@foreach (var item in Model.ShoppingCart.ShoppingCartItems)
 				{
-					<tr>
-						<td class="align-middle">@item.Amount</td>
-						<td class="align-middle">@item.Cloth.Name</td>
-						<td class="align-middle">@item.Cloth.Price.ToString("c")</td>
-						<td class="align-middle">@((item.Amount * item.Cloth.Price).ToString("c"))</td>
-						<td class="align-middle">
-							<a class="text-danger" asp-controller="Orders" asp-action="RemoveItemFromShoppingCart" asp-route-id="@item.Cloth.Id">
-								<i class="bi bi-cart-dash"></i>
-							</a>
-							<a class="text-success" asp-controller="Orders" asp-action="AddToShoppingCart" asp-route-id="@item.Cloth.Id">
-								<i class="bi bi-cart-plus"></i>
-							</a>
-						</td>
-					</tr>
+					if(item.Amount > 0)
+					{
+						<tr>
+							<td class="align-middle">@item.Amount</td>
+							<td class="align-middle">@item.Cloth.Name</td>
+							<td class="align-middle">@item.Cloth.Price.ToString("c")</td>
+							<td class="align-middle">@((item.Amount * item.Cloth.Price).ToString("c"))</td>
+							<td class="align-middle">
+								<a class="text-danger" asp-controller="Orders" asp-action="RemoveItemFromShoppingCart" asp-route-id="@item.Cloth.Id">
+									<i class="bi bi-cart-dash"></i>
+								</a>
+								<a class="text-success" asp-controller="Orders" asp-action="AddToShoppingCart" asp-route-id="@item.Cloth.Id">
+									<i class="bi bi-cart-plus"></i>
+								</a>
+							</td>
+						</tr>
+					}
 				}
 			</tbody>
 			<tfoot>
@@ -51,14 +54,59 @@
 			</tfoot>
 		</table>
 
+		<div class="row">
+			<div class="col-md-6 offset-3">
+				<p>
+					<h4>Log into your account</h4>
+				</p>
+				@if (TempData["Error"] != null)
+				{
+					<div class="col-md-12 alert alert-danger">
+						<span><b>Sorry -  @TempData["Error"]</b></span>
+					</div>
+				}
+				<div class="row">
+					<div class="col-md-8 offset-2">
+						<form asp-action="Login">
+							<div class="form-group">
+								<label class="control-label">Address</label>
+								<input id="address" class="form-control" />
+							</div>
+							<div class="form-group">
+								<labelclass="control-label">City</label>
+								<input id="city" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">County</label>
+								<input id="county" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Zipcode</label>
+								<input id="zipcode" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label class="control-label">Phone number</label>
+								<input id="phoneNumber" class="form-control" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 		<div class="text-center">
 			<div class="btn-group">
-@*				<a class="btn btn-outline-primary" asp-action="CompleteOrder">
-					Complete Order
-				</a>*@
-				<div id="paypal-btn">
-
-				</div>
+				@if(User.Identity.IsAuthenticated)
+				{
+					<div id="paypal-btn"></div>
+				}
+				else
+				{
+					<a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Account" asp-action="Login">
+						<i class="bi bi-box-arrow-in-right">Login first</i>
+					</a>
+				}
 				<span style="padding:5px"></span>
 				<a class="btn btn-outline-success" asp-controller="Clothes" asp-action="Index">
 					Add more items
@@ -73,6 +121,7 @@
 	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 
 	<script>
+		var mata;
 		let _total = @Html.Raw(Model.ShoppingCartTotal);
 		paypal.Button.render({
 			//configure environment
@@ -102,11 +151,20 @@
 			//execute payment
 			onAuthorize: function(data, actions){
 				return actions.payment.execute().then(function(){
-					var url = '@Url.Action("CompleteOrder", "Orders", new {})';
+					var address = document.getElementById("address").value;
+					var city = document.getElementById("city").value;
+					var county = document.getElementById("county").value;
+					var zipcode = document.getElementById("zipcode").value;
+					var phoneNumber = document.getElementById("phoneNumber").value;
+					var url = '@Url.Action("CompleteOrder", "Orders")';
+					url = url + '?address=' + address + '&city=' + city + '&county=' + county + '&zipcode=' + zipcode + '&phoneNumber=' + phoneNumber;
+
 					window.location.href = url;
 				});
 			}
 
 		}, '#paypal-btn');
+
+		
 	</script>
 }
