@@ -12,18 +12,18 @@ namespace eClothes.Controllers
     public class ClothesController : Controller
     {
         private readonly IClothesService _service;
+        private readonly IDiscountsService _discountsService;
 
-        public ClothesController(IClothesService service)
+        public ClothesController(IClothesService service, IDiscountsService discountsService)
         {
             _service = service;
+            _discountsService = discountsService;
         }
-
-
-
 
         public async Task<IActionResult> Index()
         {
-            var data = await _service.GetAllAsync();
+            //var data = await _service.GetAllAsync();
+            var data = await _service.GetAllWithDiscounts();
             return View(data);
         }
         public async Task<IActionResult> Filter(string searchString)
@@ -38,12 +38,14 @@ namespace eClothes.Controllers
         }
         public async Task<IActionResult> IndexBoys()
         {
-            var data = await _service.GetAllAsync(n => n.Gender == "M");
+            //var data = await _service.GetAllAsync(n => n.Gender == "M");
+            var data = await _service.GetMaleClothesWithDiscounts();
             return View(data);
         }
         public async Task<IActionResult> IndexGirls()
         {
-            var data = await _service.GetAllAsync(n => n.Gender == "F");
+            //var data = await _service.GetAllAsync(n => n.Gender == "F");
+            var data = await _service.GetFemaleClothesWithDiscounts();
             return View(data);
         }
         public async Task<IActionResult> Create()
@@ -65,7 +67,15 @@ namespace eClothes.Controllers
                 ViewBag.CategoryId = new SelectList(clothesDropdownsData.Categories, "Id", "Name");
                 return View(newCloth);
             }
-            
+            var muie = await _discountsService.GetAllAsync();
+            /*
+            foreach (var discount in muie)
+            {
+                if(discount.Name == newCloth.mata)
+                {
+                    newCloth.DiscountId = discount.Id;
+                }
+            }*/
 
             await _service.AddNewClothAsync(newCloth);
 
@@ -121,6 +131,24 @@ namespace eClothes.Controllers
             await _service.UpdateClothAsync(newCloth);
 
             return RedirectToAction("Index");
+        }
+        //get. Discounts/ Edit
+        public async Task<IActionResult> Delete(int id)
+        {
+            var cloth = await _service.GetByIdAsync(id);
+            if (cloth == null) return View("NotFound");
+            return View(cloth);
+        }
+
+        //post
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var cloth = await _service.GetByIdAsync(id);
+            if (cloth == null) return View("NotFound");
+
+            await _service.DeleteClothAsync(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

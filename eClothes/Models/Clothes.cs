@@ -17,13 +17,15 @@ namespace eClothes.Models
         public int Stock { get; set; }
         public string Gender { get; set; }
         public string Size { get; set; }
+        public int PriceAfterDiscount { get; set; }
+
+        public int DiscountId { get; set; }
 
         public int ClothesCategoryId { get; set; }
         [ForeignKey("ClothesCategoryId")]
         public ClothesCategory ClothesCategory { get; set;}
 
-        [Required(ErrorMessage = "Discount is required, if you don't want any select [ 0. No discount ]")]
-        public List<Clothes_Discounts> Clothes_Discounts { get; set; }
+        //public List<Clothes_Discounts> Clothes_Discounts { get; set; }
 
 
         public int ProducerId { get; set; }

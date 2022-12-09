@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eClothes.Data;
 
@@ -11,9 +12,10 @@ using eClothes.Data;
 namespace eClothes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221209001045_plm2")]
+    partial class plm2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,6 +159,9 @@ namespace eClothes.Migrations
                     b.Property<int>("ClothId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClothesId")
+                        .HasColumnType("int");
+
                     b.Property<int>("DiscountId")
                         .HasColumnType("int");
 
@@ -164,6 +169,8 @@ namespace eClothes.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClothesId");
 
                     b.HasIndex("DiscountsId");
 
@@ -492,6 +499,10 @@ namespace eClothes.Migrations
 
             modelBuilder.Entity("eClothes.Models.Clothes_Discounts", b =>
                 {
+                    b.HasOne("eClothes.Models.Clothes", null)
+                        .WithMany("Clothes_Discounts")
+                        .HasForeignKey("ClothesId");
+
                     b.HasOne("eClothes.Models.Discounts", null)
                         .WithMany("Clothes_Discounts")
                         .HasForeignKey("DiscountsId");
@@ -587,6 +598,11 @@ namespace eClothes.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eClothes.Models.Clothes", b =>
+                {
+                    b.Navigation("Clothes_Discounts");
                 });
 
             modelBuilder.Entity("eClothes.Models.ClothesCategory", b =>

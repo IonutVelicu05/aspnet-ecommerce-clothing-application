@@ -11,5 +11,9 @@ namespace eClothes.Data.Services
 		Task AddNewClothAsync(NewClothesVM cloth);
 		Task UpdateClothAsync(NewClothesVM cloth);
 		Task<ClothesCategory> GetCategoryByName(string name);
+		Task<List<Clothes>> GetAllWithDiscounts();
+		Task<List<Clothes>> GetMaleClothesWithDiscounts();
+		Task<List<Clothes>> GetFemaleClothesWithDiscounts();
+		Task DeleteClothAsync(int id);
 	}
 }

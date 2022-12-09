@@ -18,7 +18,10 @@
                                     @item.Name
                                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                     {
-                                        <a class="text-white float-right" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                        <div class="float-end">
+                                            <a class="text-white m-3" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                            <a class="btn btn-danger float-right" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i> Delete </a>
+                                        </div>
                                     }
                                 </h5>
                             </p>
@@ -31,8 +34,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <p class="card-text">@item.Description</p>
-                            <p class="card-text"><b>Price: </b>@item.Price</p>
+                            @if(item.Price != item.PriceAfterDiscount)
+                            {
+                                <p class="card-text"><b>Price: </b><b style ="color:green; font-weight:bold;">@item.PriceAfterDiscount.ToString("c")</b> <s style="color:red; font-weight:bold; opacity:80%;">@item.Price.ToString("c")</s></p>
+                            }
+                            else{
+                                <p class="card-text"><b>Price: </b><b style="color:green; font-weight:bold;">@item.PriceAfterDiscount.ToString("c")</b></p>
+                            }
                             <p class="card-text"><b>Producer: </b>@item.Producer</p>
                             <p class="card-text"><b>Size: </b>@item.Size</p>
                             <p class="card-text ">
@@ -50,20 +58,35 @@
                                     <span class="badge bg-primary text-white">Few items left</span>
                                 }
                             </p>
-
+                            <p class="card-text"><b>Descriere: @item.Description</b></p>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="card-footer ">
-                            <p class="card-text">
-                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                        <div class="card-footer align-middle">
+                            <p class="card-text discount-style1">
+                                <a class="btn btn-outline-primary float-left" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="bi bi-eye-fill"></i> Show Details
                                 </a>
-                                <a class="btn btn-success text-white)" 
-                                   asp-controller="Orders" 
-                                   asp-action="AddToShoppingCart" 
-                                   asp-route-id="@item.Id">
-                                <i class="bi bi-cart-plus"></i> Add to Cart (Price @item.Price.ToString("c"))</a>
+                                <a class="btn btn-success text-white float-end)" 
+                                    asp-controller="Orders" 
+                                    asp-action="AddToShoppingCart" 
+                                    asp-route-id="@item.Id">
+                                    <i class="bi bi-cart-plus"></i> Add to Cart
+                                </a>
+                                @if(item.Price != item.PriceAfterDiscount)
+                                {
+                                    <ins>
+                                        <span class="amount">@item.PriceAfterDiscount.ToString("c")</span>
+                                    </ins>
+                                    <del>
+                                        <span class="amount">@item.Price.ToString("c")</span>
+                                    </del>
+                                }
+                                else{
+                                    <ins>
+                                        <span class="amount">@item.PriceAfterDiscount.ToString("c")</span>
+                                    </ins>
+                                }
                             </p>
                         </div>
                     </div>

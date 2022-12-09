@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eClothes.Data;
 
@@ -11,9 +12,10 @@ using eClothes.Data;
 namespace eClothes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221208230533_backclothesdiscount")]
+    partial class backclothesdiscount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,9 +108,6 @@ namespace eClothes.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DiscountId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -148,24 +147,15 @@ namespace eClothes.Migrations
 
             modelBuilder.Entity("eClothes.Models.Clothes_Discounts", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("DiscountId")
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ClothId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DiscountId")
-                        .HasColumnType("int");
+                    b.HasKey("DiscountId", "ClothId");
 
-                    b.Property<int?>("DiscountsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DiscountsId");
+                    b.HasIndex("ClothId");
 
                     b.ToTable("Clothes_Discounts");
                 });
@@ -492,9 +482,21 @@ namespace eClothes.Migrations
 
             modelBuilder.Entity("eClothes.Models.Clothes_Discounts", b =>
                 {
-                    b.HasOne("eClothes.Models.Discounts", null)
+                    b.HasOne("eClothes.Models.Discounts", "Discounts")
                         .WithMany("Clothes_Discounts")
-                        .HasForeignKey("DiscountsId");
+                        .HasForeignKey("ClothId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eClothes.Models.Clothes", "Clothes")
+                        .WithMany("Clothes_Discounts")
+                        .HasForeignKey("DiscountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Clothes");
+
+                    b.Navigation("Discounts");
                 });
 
             modelBuilder.Entity("eClothes.Models.Order", b =>
@@ -587,6 +589,11 @@ namespace eClothes.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("eClothes.Models.Clothes", b =>
+                {
+                    b.Navigation("Clothes_Discounts");
                 });
 
             modelBuilder.Entity("eClothes.Models.ClothesCategory", b =>

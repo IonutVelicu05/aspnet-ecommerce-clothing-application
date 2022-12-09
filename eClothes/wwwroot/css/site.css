@@ -16,3 +16,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.discount-style1 ins{
+    color: green;
+    font-size: 32px;
+    text-decoration: none;
+    font-weight:bold;
+}
+.discount-style1 del {
+    color: red;
+    text-decoration: line-through;
+    width: 100%;
+    font-weight: bold;
+    border-top: 2px solid rgba(red, 0.8);
+    height: 12px;
+    font-size: 18px;
+}

@@ -33,6 +33,7 @@ namespace eClothes.Controllers
         {
             if (ModelState.IsValid)
             {
+                discounts.Name = discounts.Name + " " + discounts.Discount + "%";
                 await _service.AddAsync(discounts);
                 return RedirectToAction(nameof(Index));
             }

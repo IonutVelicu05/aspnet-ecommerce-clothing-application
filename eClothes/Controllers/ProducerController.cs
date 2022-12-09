@@ -44,7 +44,7 @@ namespace eClothes.Controllers
         {
             var producerDetails = await _service.GetByIdAsync(id);
             if (producerDetails == null) return View("NotFound");
-            return View();
+            return View(producerDetails);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(int id, [Bind("Id, ProfilePictureURL, FullName, ProfileBio")] Producer producer)

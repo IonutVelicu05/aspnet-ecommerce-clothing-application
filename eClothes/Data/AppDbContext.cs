@@ -18,14 +18,15 @@ namespace eClothes.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Clothes_Discounts>().HasKey(cd => new
+            /*modelBuilder.Entity<Clothes_Discounts>().HasKey(cd => new
             {
-                cd.DiscountId,
-                cd.ClothId
+                cd.ClothId,
+                cd.DiscountId
             });
-
-            modelBuilder.Entity<Clothes_Discounts>().HasOne(d => d.Discounts).WithMany(dc => dc.Clothes_Discounts).HasForeignKey(d => d.ClothId);
-            modelBuilder.Entity<Clothes_Discounts>().HasOne(d => d.Clothes).WithMany(dc => dc.Clothes_Discounts).HasForeignKey(d => d.DiscountId);
+            */
+            //modelBuilder.Entity<Clothes_Discounts>().HasOne(d => d.Discounts).WithMany(dc => dc.Clothes_Discounts).HasForeignKey(d => d.ClothId);
+            //modelBuilder.Entity<Clothes_Discounts>().HasOne(d => d.Clothes).WithMany(dc => dc.Clothes_Discounts).HasForeignKey(d => d.DiscountId);
+           
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<Clothes> Clothes { get; set; }
@@ -38,9 +39,6 @@ namespace eClothes.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
-
-        //identity - user management
-        
 
     }
 }

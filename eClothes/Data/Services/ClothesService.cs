@@ -12,8 +12,7 @@ namespace eClothes.Data.Services
 		{
 			_context =	context;
 		}
-
-		public async Task AddNewClothAsync(NewClothesVM cloth)
+        public async Task AddNewClothAsync(NewClothesVM cloth)
 		{
 			var newCloth = new Clothes()
 			{
@@ -25,10 +24,20 @@ namespace eClothes.Data.Services
 				Stock = cloth.Stock,
 				ImageURL = cloth.ImageURL,
 				ProducerId = cloth.ProducerId,
-				ClothesCategoryId = cloth.ClothesCategoryId
+				ClothesCategoryId = cloth.ClothesCategoryId,
+				PriceAfterDiscount = cloth.Price,
+				DiscountId = cloth.DiscountId
 			};
 			await _context.Clothes.AddAsync(newCloth);
 			await _context.SaveChangesAsync();
+			var newDiscount = new Clothes_Discounts()
+			{
+				ClothId = newCloth.Id,
+				DiscountId = newCloth.DiscountId
+            };
+            await _context.Clothes_Discounts.AddAsync(newDiscount);
+            await _context.SaveChangesAsync();
+            /*
 			//add discounts 
 			if(cloth.ClothesDiscountIds.Count > 0)
 			{
@@ -39,13 +48,68 @@ namespace eClothes.Data.Services
 						ClothId = newCloth.Id,
 						DiscountId = discountId
 					};
-					await _context.Clothes_Discounts.AddAsync(newDiscount);
+					_context.Clothes_Discounts.Add(newDiscount);
+					//await _context.Clothes_Discounts.AddAsync(newDiscount);
 				}
 				await _context.SaveChangesAsync();
-			}
-		}
+			}*/
+        }
+        public async Task<List<Clothes>> GetAllWithDiscounts()
+        {
+            var clothes = await _context.Clothes.ToListAsync();
+            var discounts = await _context.Clothes_Discounts.ToListAsync();
 
-		public async Task<ClothesCategory> GetCategoryByName(string name)
+            foreach (var cloth in clothes)
+            {
+                foreach (var discount in discounts)
+                {
+                    if (cloth.Id == discount.ClothId)
+                    {
+                        var discountPercentage = await _context.Discounts.FirstOrDefaultAsync(d => d.Id == discount.DiscountId);
+                        cloth.PriceAfterDiscount = cloth.Price - cloth.Price * discountPercentage.Discount / 100;
+                    }
+                }
+            }
+            return clothes;
+        }
+
+        public async Task<List<Clothes>> GetMaleClothesWithDiscounts()
+        {
+            var clothes = await _context.Clothes.Where(n => n.Gender == "M").ToListAsync();
+            var discounts = await _context.Clothes_Discounts.ToListAsync();
+
+            foreach (var cloth in clothes)
+            {
+                foreach (var discount in discounts)
+                {
+                    if (cloth.Id == discount.ClothId)
+                    {
+                        var discountPercentage = await _context.Discounts.FirstOrDefaultAsync(d => d.Id == discount.DiscountId);
+                        cloth.PriceAfterDiscount = cloth.Price - cloth.Price * discountPercentage.Discount / 100;
+                    }
+                }
+            }
+            return clothes;
+        }
+        public async Task<List<Clothes>> GetFemaleClothesWithDiscounts()
+        {
+            var clothes = await _context.Clothes.Where(n => n.Gender == "F").ToListAsync();
+            var discounts = await _context.Clothes_Discounts.ToListAsync();
+
+            foreach (var cloth in clothes)
+            {
+                foreach (var discount in discounts)
+                {
+                    if (cloth.Id == discount.ClothId)
+                    {
+                        var discountPercentage = await _context.Discounts.FirstOrDefaultAsync(d => d.Id == discount.DiscountId);
+                        cloth.PriceAfterDiscount = cloth.Price - cloth.Price * discountPercentage.Discount / 100;
+                    }
+                }
+            }
+            return clothes;
+        }
+        public async Task<ClothesCategory> GetCategoryByName(string name)
 		{
 			var categoryDetails = await _context.Clothes_Categories.FirstOrDefaultAsync(n => n.Name == name);
 			return categoryDetails;
@@ -53,9 +117,16 @@ namespace eClothes.Data.Services
 
 		public async Task<Clothes> GetClothByIdAsync(int id)
 		{
-			var clothDetails = await _context.Clothes.Include(p => p.Producer).Include(cd => cd.Clothes_Discounts).ThenInclude(d => d.Discounts)
-				.FirstOrDefaultAsync(n => n.Id == id);
+			//var clothDetails = await _context.Clothes.Include(p => p.Producer).Include(cd => cd.Clothes_Discounts).ThenInclude(d => d.Discounts)
+			//.FirstOrDefaultAsync(n => n.Id == id);
+			var clothDetails = await _context.Clothes.Include(p => p.Producer).FirstOrDefaultAsync(n => n.Id == id);
 			var clothCategory = await _context.Clothes_Categories.FirstOrDefaultAsync(n => n.Id == clothDetails.ClothesCategoryId);
+			var clothDiscounts = await _context.Clothes_Discounts.FirstOrDefaultAsync(n => n.ClothId == clothDetails.Id);
+			if(clothDiscounts != null)
+			{
+				var discountNumber = await _context.Discounts.FirstOrDefaultAsync(n => n.Id == clothDiscounts.DiscountId);
+				clothDetails.PriceAfterDiscount = clothDetails.Price - clothDetails.Price * discountNumber.Discount / 100;
+			}
 			clothDetails.ClothesCategory.Name = clothCategory.Name;
 			return clothDetails;
 		}
@@ -85,6 +156,7 @@ namespace eClothes.Data.Services
 				dbCloth.ImageURL = cloth.ImageURL;
 				dbCloth.ProducerId = cloth.ProducerId;
 				dbCloth.ClothesCategoryId = cloth.ClothesCategoryId;
+				dbCloth.DiscountId = cloth.DiscountId;
 			}
 			await _context.SaveChangesAsync();
 			//remove discounts
@@ -92,7 +164,16 @@ namespace eClothes.Data.Services
 			_context.Clothes_Discounts.RemoveRange(existingDiscounts);
 			await _context.SaveChangesAsync();
 
+            var newDiscount = new Clothes_Discounts()
+            {
+                ClothId = dbCloth.Id,
+                DiscountId = dbCloth.DiscountId
+            };
+            await _context.Clothes_Discounts.AddAsync(newDiscount);
+            await _context.SaveChangesAsync();
+
             //add new discounts 
+            /*
             if (cloth.ClothesDiscountIds.Count > 0)
             {
                 foreach (var discountId in cloth.ClothesDiscountIds)
@@ -105,7 +186,14 @@ namespace eClothes.Data.Services
                     await _context.Clothes_Discounts.AddAsync(newDiscount);
                 }
                 await _context.SaveChangesAsync();
-            }
+            }*/
+        }
+
+		public async Task DeleteClothAsync(int id)
+		{
+            var cloth = _context.Clothes.Where(n => n.Id == id).ToList();
+            _context.Clothes.RemoveRange(cloth);
+            await _context.SaveChangesAsync();
         }
 	}
 }

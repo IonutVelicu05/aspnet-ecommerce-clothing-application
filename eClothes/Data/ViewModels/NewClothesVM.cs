@@ -34,9 +34,9 @@ namespace eClothes.Models
         [Display(Name = "Category")]
         public int ClothesCategoryId { get; set;}
 
-        [Required(ErrorMessage = "Discount is required, if you don't want any select [ 0. No discount ]")]
-        public List<int> ClothesDiscountIds { get; set; }
+        //public List<int> ClothesDiscountIds { get; set; }
 
+        public int DiscountId { get; set; }
         [Required(ErrorMessage = "Producer is required")]
         [Display(Name = "Producer")]
         public int ProducerId { get; set; }

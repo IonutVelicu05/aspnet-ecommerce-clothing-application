@@ -17,6 +17,6 @@ namespace eClothes.Models
         public int Discount { get; set; }
 
 
-        public List<Clothes_Discounts>? Clothes_Discounts { get; set; }
+        //public List<Clothes_Discounts> Clothes_Discounts { get; set; }
     }
 }
